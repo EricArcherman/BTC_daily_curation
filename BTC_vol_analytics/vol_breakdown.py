@@ -8,7 +8,7 @@ import os
 import pandas as pd
 import matplotlib.pyplot as plt
 
-LOC = 'raw_data'
+LOC = 'BTC_vol_analytics/raw_data/'
 
 HF_FILES = [
     '22-7-12.csv',
@@ -20,10 +20,15 @@ HF_FILES = [
 
 def format(loc, hf_files):
     try:
-        hf_data_sep = [pd.read_csv(os.path.join(loc, file)) for file in hf_files]
-    except Exception as e:
-        print(f"An error occurred: {e}")
         hf_data_sep = []
+        for file in hf_files:
+            file_path = os.path.join(loc, file)
+            print(f"Reading file: {file_path}")
+            df = pd.read_csv(file_path)
+            hf_data_sep.append(df)
+    except Exception as e:
+        print(f"An error occured: {e}")
+        exit()
     
     hf_data = pd.concat(hf_data_sep, ignore_index=True)
     hf_data['timestamp'] = pd.to_datetime(hf_data['timestamp'], unit='ms')
@@ -45,9 +50,6 @@ def extract_all_hourly_prices(hf_data):
     # Rename the columns to have a more readable format
     pivot_data.columns = [time.strftime('%I%p').lower() for time in pivot_data.columns]
     
-    # Save to CSV
-    pivot_data.to_csv('extracted_prices.csv')
-    
     return pivot_data
 
 def plot_hourly_prices(pivot_data):
@@ -68,6 +70,8 @@ def plot_hourly_prices(pivot_data):
 def main():
     hf_data = format(LOC, HF_FILES)
     pivot_data = extract_all_hourly_prices(hf_data)
+    pivot_data = pivot_data.iloc[-643:] # to make compatible with Tim's excel
+    pivot_data.to_csv('extracted_prices.csv')
     # plot_hourly_prices(pivot_data)
 
 if __name__ == '__main__':
