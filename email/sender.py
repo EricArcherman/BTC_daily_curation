@@ -12,6 +12,8 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from pathlib import Path
 
+from data.update import LAST_UPDATE
+
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 
 def get_credentials():
@@ -23,7 +25,7 @@ def get_credentials():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('automator/credentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file('email/credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
@@ -62,8 +64,8 @@ def send_email(subject, body, to_emails, file_path):
 
 if __name__ == "__main__":
     send_email(
-        subject="Daily BTC prices update",
-        body="Sup guys! Stuff is attached.",
-        to_emails=['ericarcherman@gmail.com', 'tim.ball@signalplus.com', 'nyma.m.sharifi@gmail.com'],
+        subject="Daily BTC update",
+        body=f"Sup guys! The curated prices are below, last data update was at {LAST_UPDATE}",
+        to_emails=['ericarcherman@gmail.com'], #, 'tim.ball@signalplus.com', 'nyma.m.sharifi@gmail.com'
         file_path="extracted_prices.csv"
     )
