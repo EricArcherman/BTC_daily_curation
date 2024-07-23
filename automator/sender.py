@@ -1,8 +1,6 @@
 import os.path
 import base64
-import json
 import pickle
-import smtplib
 
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -10,7 +8,6 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from pathlib import Path
@@ -33,10 +30,7 @@ def get_credentials():
     return creds
 
 def send_email(subject, body, to_emails, file_path):
-    with open('automator/config.json') as config_file:
-        config = json.load(config_file)
-    
-    from_email = config['email_address']
+    from_email = 'archermaneric@gmail.com'
 
     creds = get_credentials()
     service = build('gmail', 'v1', credentials=creds)
@@ -67,11 +61,9 @@ def send_email(subject, body, to_emails, file_path):
         print(f"An error occurred: {e}")
 
 if __name__ == "__main__":
-    with open('automator/config.json') as config_file:
-        config = json.load(config_file)
     send_email(
         subject="Daily BTC prices update",
-        body="Top of the morning! Please find attached the CSV file.",
-        to_emails=[config['to_email'], 'zhangjiaqi@signalplus.com', 'huangjingshan@signalpluslab.com', 'janet.xu@signalplus.com'],
+        body="Sup guys! Stuff is attached.",
+        to_emails=['tim.ball@signalplus.com', 'nyma.m.sharifi@gmail.com'],
         file_path="extracted_prices.csv"
     )
