@@ -66,6 +66,6 @@ if __name__ == "__main__":
     send_email(
         subject="Daily BTC update",
         body=f"Sup guys! The curated prices are below, last data update was at {LAST_UPDATE}",
-        to_emails=['ericarcherman@gmail.com'], #, 'tim.ball@signalplus.com', 'nyma.m.sharifi@gmail.com'
+        to_emails=['ericarcherman@gmail.com', 'tim.ball@signalplus.com'],
         file_path="extracted_prices.csv"
     )
