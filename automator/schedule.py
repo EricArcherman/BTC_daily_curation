@@ -12,6 +12,7 @@ def send_data():
 
 def main():
     update_data()
+    reformat_data()
     send_data()
 
 scheduler = BlockingScheduler()
