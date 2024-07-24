@@ -7,7 +7,6 @@ from datetime import datetime
 RUNNING = 'data/running-2-years.csv'
 EXCHANGE = 'deribit'
 CURRENCY = 'BTC'
-LAST_UPDATE = 69 # just an initialization variable, (teehee!)
 
 def update(running, exchange, currency):
     print(f"Reading file: {running}")
