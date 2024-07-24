@@ -1,2 +1,3 @@
-# spot_data_reformatting
-Reformat high frequency spot data to hourly fixes for volatility analysis. This will help find the 'optimal' time slot of once-a-day portfolio hedging.
+# BTC Daily Curation
+
+Read from database, format the prices, email to Tim and Nyma for volatility analysis.
