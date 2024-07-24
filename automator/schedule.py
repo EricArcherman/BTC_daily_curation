@@ -2,21 +2,21 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 import subprocess
 
 def update_data():
-    subprocess.run(['/usr/local/bin/python3', "data/update.py"])
+    subprocess.run(['/usr/local/bin/python3', 'data/update.py'])
 
-def reformat_data():
+def extract_data():
     subprocess.run(['/usr/local/bin/python3', 'extract.py'])
 
 def send_data():
-    subprocess.run(['/usr/local/bin/python3', "email/sender.py"])
+    subprocess.run(['/usr/local/bin/python3', "sender/lark_text.py"])
 
 def main():
     update_data()
-    reformat_data()
+    extract_data()
     send_data()
 
 scheduler = BlockingScheduler()
-scheduler.add_job(main, 'cron', hour=12, minute=00)
+scheduler.add_job(main, 'cron', hour=18, minute=35)
 
 try:
     scheduler.start()

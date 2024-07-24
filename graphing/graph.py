@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 
+import pandas as pd
+
 def plot_hourly_prices(pivot_data):
     plt.figure(figsize=(12, 8))
 
@@ -14,3 +16,10 @@ def plot_hourly_prices(pivot_data):
     plt.xticks(rotation=45)
     plt.tight_layout()
     plt.show()
+
+def main():
+    prices = pd.read_csv('extracted_prices.csv')
+    plot_hourly_prices(prices.iloc[:,1:])
+
+if __name__ == "__main__":
+    main()

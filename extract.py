@@ -5,17 +5,18 @@ Author: Eric Archerman
 Date: 17 July 2024
 '''
 import pandas as pd
-from data.update import RUNNING, EXCHANGE, CURRENCY, update
 
 LOC = 'data/running-2-years.csv'
 
 def format(loc):
     hf_data = pd.read_csv(loc)
+    hf_data['timestamp'] = hf_data['timestamp'] + 28800000
     hf_data['timestamp'] = pd.to_datetime(hf_data['timestamp'], unit='ms')
     
     return hf_data
 
 def extract_hourly_prices(hf_data):
+    print(hf_data.iloc[-1])
     hf_data.set_index('timestamp', inplace=True)
     
     print('Resampling every hour')
@@ -31,13 +32,10 @@ def extract_hourly_prices(hf_data):
     return pivot_data
 
 def main():
-    print(f"************************************************************ Initializing update data for {RUNNING} ************************************************************")
-    update(RUNNING, EXCHANGE, CURRENCY)
-
     print("************************************************************ Extracting and formatting data ************************************************************")
     hf_data = format(LOC)
     pivot_data = extract_hourly_prices(hf_data)
-    pivot_data = pivot_data.iloc[-643:] # to make compatible with Tim's excel
+    pivot_data = pivot_data.iloc[-2:] # to make compatible with Tim's excel
 
     print(f"************************************************************ Writing to {LOC} ************************************************************")
     pivot_data.to_csv('extracted_prices.csv')
