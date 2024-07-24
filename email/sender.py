@@ -1,4 +1,18 @@
-import os.path
+import sys
+import os
+
+# Get the directory of the current script
+current_script_path = os.path.abspath(__file__)
+
+# Get the parent directory of the current script's directory (project root)
+project_root = os.path.dirname(os.path.dirname(current_script_path))
+
+# Add the project root to the Python path
+sys.path.append(project_root)
+
+# Now you can import from the data module
+from data.update import LAST_UPDATE
+
 import base64
 import pickle
 
@@ -11,8 +25,6 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from pathlib import Path
-
-from data.update import LAST_UPDATE
 
 SCOPES = ['https://www.googleapis.com/auth/gmail.send']
 

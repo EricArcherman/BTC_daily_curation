@@ -11,7 +11,7 @@ LAST_UPDATE = 69 # just an initialization variable, (teehee!)
 
 def update(running, exchange, currency):
     print(f"Reading file: {running}")
-    data = pd.read_csv(running)
+    data = pd.read_csv(running, index_col=False)
 
     print(f"Calculating API fetch bounds")
     last_record = data['timestamp'].iloc[-1]
@@ -28,10 +28,12 @@ def update(running, exchange, currency):
     
     try:
         latest = json.loads(res.text)["value"]
-        print(f"Prices received.")
     except ValueError as e:
-        print("Data is already up to date! We're just updating an empty dataframe.")
+        print("Data is already up to date!")
         latest = {'timestamp', 'indexPrice'}
+        
+        print("Exiting update program...")
+        exit()
 
     print(f"Updating {running}")
     latest_prices = pd.DataFrame(latest)
