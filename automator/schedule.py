@@ -1,5 +1,6 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 import subprocess
+import pytz
 
 def update_data():
     subprocess.run(['/usr/local/bin/python3', 'data/update.py'])
@@ -15,8 +16,10 @@ def main():
     extract_data()
     send_data()
 
-scheduler = BlockingScheduler()
-scheduler.add_job(main, 'cron', hour=10, minute=40)
+timez = pytz.timezone('Asia/Shanghai')
+
+scheduler = BlockingScheduler(timezone=timez)
+scheduler.add_job(main, 'cron', second=9)
 
 try:
     scheduler.start()

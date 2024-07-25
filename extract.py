@@ -16,7 +16,6 @@ def format(loc):
     return hf_data
 
 def extract_hourly_prices(hf_data):
-    print(hf_data.iloc[-1])
     hf_data.set_index('timestamp', inplace=True)
     
     print('Resampling every hour')
@@ -35,7 +34,7 @@ def main():
     print("************************************************************ Extracting and formatting data ************************************************************")
     hf_data = format(LOC)
     pivot_data = extract_hourly_prices(hf_data)
-    pivot_data = pivot_data.iloc[-2:] # to make compatible with Tim's excel
+    pivot_data = pivot_data.iloc[-3:] # get last 3 rows bc that's what Tim wants
 
     print(f"************************************************************ Writing to {LOC} ************************************************************")
     pivot_data.to_csv('extracted_prices.csv')
