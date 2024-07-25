@@ -16,7 +16,7 @@ def main():
     send_data()
 
 scheduler = BlockingScheduler()
-scheduler.add_job(main, 'cron', hour=18, minute=35)
+scheduler.add_job(main, 'cron', hour=10, minute=40)
 
 try:
     scheduler.start()
