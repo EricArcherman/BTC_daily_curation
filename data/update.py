@@ -48,6 +48,9 @@ def update(running, exchange, currency):
     print(f"{running} successfully last updated at {LAST_UPDATE}.")
 
 
-if __name__ == "__main__":
+def main():
     update(RUNNING, EXCHANGE, CURRENCY)
+
+if __name__ == "__main__":
+    main()
     print("Program done!")

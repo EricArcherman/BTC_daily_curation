@@ -26,6 +26,9 @@ def lark_data_loader(message):
     except requests.exceptions.ProxyError as e:
         print(f"requests.exceptions.ProxyError {e}, please check your proxy")
 
-if __name__ == "__main__":
+def main():
     target_message = fetch_data()
     lark_data_loader(f"Here's yesterday's data:\n{target_message}")
+
+if __name__ == "__main__":
+    main()

@@ -66,7 +66,7 @@ def send_email(subject, body, to_emails, file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
 
-if __name__ == "__main__":
+def main():
     with open(RUNNING, 'rb') as f:
         f.seek(-2, 2)
         while f.read(1) != b'\n':
@@ -85,3 +85,6 @@ if __name__ == "__main__":
         to_emails=['ericarcherman@gmail.com', 'tim.ball@signalplus.com', 'nyma.m.sharifi@gmail.com'],
         file_path="extracted_prices.csv"
     )
+
+if __name__ == "__main__":
+    main()

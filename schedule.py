@@ -1,15 +1,9 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
-import subprocess
 import pytz
 
-def update_data():
-    subprocess.run(['/usr/local/bin/python3', 'data/update.py'])
-
-def extract_data():
-    subprocess.run(['/usr/local/bin/python3', 'extract.py'])
-
-def send_data():
-    subprocess.run(['/usr/local/bin/python3', "sender/lark_text.py"])
+from data.update import main as update_data
+from extract import main as extract_data
+from sender.lark_text import main as send_data
 
 def main():
     update_data()
@@ -22,6 +16,7 @@ scheduler = BlockingScheduler(timezone=timez)
 scheduler.add_job(main, 'cron', second=9)
 
 try:
+    print("Start!")
     scheduler.start()
 except (KeyboardInterrupt, SystemExit):
     pass
