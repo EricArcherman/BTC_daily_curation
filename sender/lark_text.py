@@ -6,7 +6,7 @@ def fetch_data():
     file_path = 'extracted_prices.csv'
     df = pd.read_csv(file_path)
 
-    last_row = df.iloc[-3]
+    last_row = df.iloc[-2]
     last_row_str = '\t'.join(map(str, last_row.values))
 
     return last_row_str

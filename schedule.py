@@ -13,7 +13,7 @@ def main():
 timez = pytz.timezone('Asia/Shanghai')
 
 scheduler = BlockingScheduler(timezone=timez)
-scheduler.add_job(main, 'cron', second=9)
+scheduler.add_job(main, 'cron', hour=8, minute=0)
 
 try:
     print("Start!")
