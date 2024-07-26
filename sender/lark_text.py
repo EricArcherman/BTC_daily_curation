@@ -22,7 +22,7 @@ def lark_data_loader(message):
         webhook_adr = 'https://open.larksuite.com/open-apis/bot/v2/hook/23d73fed-e7df-470c-ad9f-a07a24a17d77'
         headers = {'Content-Type': 'application/json'}
         rep = requests.post(url=webhook_adr, data=json.dumps(payload_message), headers=headers)
-        print('lark bot response: ', rep.text)
+        print('Message send successful, finished with code: ', rep.text)
     except requests.exceptions.ProxyError as e:
         print(f"requests.exceptions.ProxyError {e}, please check your proxy")
 
