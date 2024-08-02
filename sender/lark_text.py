@@ -6,10 +6,11 @@ def fetch_data():
     file_path = 'extracted_prices.csv'
     df = pd.read_csv(file_path)
 
-    last_row = df.iloc[-2]
-    last_row_str = '\t'.join(map(str, last_row.values))
+    yesterday, today = df.iloc[-2], df.iloc[-1]
+    yesterday_formatted = '\t'.join(map(str, yesterday.values))
+    today_formatted = '\t'.join(map(str, today.values))
 
-    return last_row_str
+    return yesterday_formatted, today_formatted
 
 def lark_data_loader(message):
     try:
@@ -26,9 +27,13 @@ def lark_data_loader(message):
     except requests.exceptions.ProxyError as e:
         print(f"requests.exceptions.ProxyError {e}, please check your proxy")
 
-def main():
+def yesterday_data():
     target_message = fetch_data()
-    lark_data_loader(f"Here's yesterday's data:\n{target_message}")
+    lark_data_loader(f"Here's yesterday's data:\n{target_message[0]}")
+
+def today_data():
+    target_message = fetch_data()
+    lark_data_loader(f"Here's today's data:\n{target_message[1]}")
 
 if __name__ == "__main__":
-    main()
+    today_data()
