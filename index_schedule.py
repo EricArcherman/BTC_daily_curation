@@ -13,7 +13,7 @@ def send_yesterday_index():
     update_data()
     extract_data()
     yesterday_data()
-    print(f"Will send tomorrow's index data at {send_index_time[0]}:{send_index_time[1]}.")
+    print(f"Will send tomorrow's index data at {send_yesterday_time[0]}:{send_yesterday_time[1]}.")
 
 def send_today_index():
     update_data()

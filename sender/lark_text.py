@@ -7,6 +7,7 @@ def fetch_data():
     df = pd.read_csv(file_path)
 
     yesterday, today = df.iloc[-2], df.iloc[-1]
+
     yesterday_formatted = '\t'.join(map(str, yesterday.values))
     today_formatted = '\t'.join(map(str, today.values))
 
