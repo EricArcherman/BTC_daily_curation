@@ -1,4 +1,4 @@
-# BTC Daily Curation
+# BTC Price Action Updates
 
-This version is BEFORE REFACTORING.
-Read from database, format the prices, email to Tim and Nyma for volatility analysis.
+Will send:
+(1) Lark text
