@@ -1,0 +1,26 @@
+{
+    'id': '1917bddb3f49875c',
+    'threadId': '1917bddb3f49875c',
+    'labelIds': ['UNREAD', 'SENT', 'INBOX'],
+    'snippet': 'Hello, World!',
+    'payload': {
+        'partId': '',
+        'mimeType': 'text/plain',
+        'filename': '',
+        'headers': [
+            {'name': 'Received', 'value': 'from 598296396008 named unknown by gmailapi.google.com with HTTPREST; Thu, 22 Aug 2024 13:53:32 -0700'},
+            {'name': 'Content-Type', 'value': 'text/plain; charset="us-ascii"'},
+            {'name': 'MIME-Version', 'value': '1.0'},
+            {'name': 'Content-Transfer-Encoding', 'value': '7bit'},
+            {'name': 'to', 'value': 'ericarcherman@gmail.com, archermaneric@gmail.com'},
+            {'name': 'from', 'value': 'archermaneric@gmail.com'},
+            {'name': 'subject', 'value': 'Test chain'},
+            {'name': 'Date', 'value': 'Thu, 22 Aug 2024 13:53:32 -0700'},
+            {'name': 'Message-Id', 'value': '<CALQ=UYf4RyBCQ1hDGG59FT-Yw=4K9q6SWZKfDTCPV2Sv4HyJHg@mail.gmail.com>'}
+        ],
+        'body': {'size': 13, 'data': 'SGVsbG8sIFdvcmxkIQ=='}
+    },
+    'sizeEstimate': 461, 
+    'historyId': '26955', 
+    'internalDate': '1724360012000'
+}

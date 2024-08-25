@@ -1,20 +1,119 @@
-import os
-import base64
-import pickle
-import re
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.mime.base import MIMEBase
-from email import encoders
-from google.auth.transport.requests import Request
+# creating oauth service
+from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
-from datetime import datetime
+import os
+import pickle
 
-SCOPES = ['https://www.googleapis.com/auth/gmail.send', 'https://www.googleapis.com/auth/gmail.readonly']
+# starting email chain
+from googleapiclient.errors import HttpError
+import base64
+from email.mime.text import MIMEText
+
+SCOPES = ['https://mail.google.com/']
 
 class EmailChain:
-    def __init__(self, chain_name, author, members):
+    def __init__(self, chain_name, author, members, creds_file):
+        self.chain_name = chain_name
+        self.author = author
+        self.members = members
+        self.creds_file = creds_file
+
+        self.thread_ID = 0 # temporary value
+
+        self.service = self.create_service(creds_file)
+
+    def create_service(self, creds_file):
+        creds = None
+
+        # credential logic
+        if os.path.exists('token.pickle'):
+            with open('token.pickle', 'rb') as token:
+                creds = pickle.load(token)
+
+        if not creds or not creds.valid:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(creds_file, SCOPES)
+                creds = flow.run_local_server(port=0)
+            with open('token.pickle', 'wb') as token:
+                pickle.dump(creds, token)
+        
+        # building service
+        service = build('gmail', 'v1', credentials=creds)
+        return service
+    
+    def init_chain(self, body):
+        try:
+            # MIMEText object for the email
+            message = MIMEText(body)
+            message['to'] = ', '.join(self.members)
+            message['from'] = self.author
+            message['subject'] = self.chain_name
+
+            # message to base64
+            raw = base64.urlsafe_b64encode(message.as_bytes()).decode('utf-8')
+            message_body = {'raw': raw}
+
+            # send email
+            sent_message = self.service.users().messages().send(userId='me', body=message_body).execute()
+            print(f"Thread ID is: {sent_message['threadId']}")
+            self.thread_ID = sent_message['threadId']
+            return sent_message
+
+        except HttpError as error:
+            print(f'An error occurred: {error}')
+            return None
+
+    @property
+    def latest_msg(self):
+        try:
+            # Get the thread details
+            thread = self.service.users().threads().get(userId='me', id=self.thread_ID).execute()
+            
+            # Extract the list of messages
+            messages = thread['messages']
+            
+            if not messages:
+                print("No messages found in this thread.")
+                return None
+            
+            # Sort messages by 'internalDate'
+            messages.sort(key=lambda msg: int(msg['internalDate']), reverse=True)
+            
+            # Get the latest message (the first one in the sorted list)
+            latest_message = messages[0]
+            
+            return latest_message
+
+        except HttpError as error:
+            print(f'An error occurred: {error}')
+            return None
+        
+    def msg_to_chain(self, body, attachment):
+        pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    '''def __init__(self, chain_name, author, members):
         self.chain_name = chain_name
         self.author = author
         self.members = members
@@ -141,26 +240,28 @@ class EmailChain:
         part.set_payload(file.read())
         encoders.encode_base64(part)
         part.add_header('Content-Disposition', f'attachment; filename={file.name}')
-        message.attach(part)
+        message.attach(part)'''
 
 if __name__ == "__main__":
     chain_name = "Test chain"
     author = 'archermaneric@gmail.com'
     members = ['ericarcherman@gmail.com', 'archermaneric@gmail.com']
+    creds_file = 'email_credentials.json'
 
-    email_chain = EmailChain(chain_name, author, members)
+    email_chain = EmailChain(chain_name, author, members, creds_file)
 
     # (1) Start a new chain
-    email_chain.start_chain("Hello, World!")
+    init_chain_result = email_chain.init_chain("Hello, World!")
+    print(email_chain.latest_msg)
 
     # (2) Get the latest message in the chain
     # email_chain.chain_latest()
 
     # (3) Send a reply to the chain
-    from io import BytesIO
+    '''from io import BytesIO
     body = "automated_reply_to_automated_reply"
     file = BytesIO()
     file.write(b'column1,column2\nvalue1,value2')
     file.seek(0)
     file.name = 'test.csv'
-    email_chain.send_to_chain(body, file)
+    email_chain.send_to_chain(body, file)'''
