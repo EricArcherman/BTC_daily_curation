@@ -68,7 +68,7 @@ def yesterday_data():
     res_dict = res_dict.loc[is_hour_list, :].reset_index(drop=True)
     data_message = '\t'.join(
         map(str, list(res_dict["indexPrice"].values) + [np.nan] * (24 - len(res_dict["indexPrice"].values))))
-    full_message = f"Here's yesterday's's data:\n{yesterday_date} {data_message}"
+    full_message = f"Here's yesterday's's data:\n{yesterday_date}\t{data_message}"
     print(full_message)
     lark_data_loader(f"{full_message}")
 
@@ -105,7 +105,7 @@ def today_data():
     res_dict = res_dict.loc[is_hour_list, :].reset_index(drop=True)
     data_message = '\t'.join(
         map(str, list(res_dict["indexPrice"].values) + [np.nan] * (24 - len(res_dict["indexPrice"].values))))
-    full_message = f"Here's today's data:\n{current_date} {data_message}"
+    full_message = f"Here's today's data:\n{current_date}\t{data_message}"
     print(full_message)
     lark_data_loader(full_message)
 
