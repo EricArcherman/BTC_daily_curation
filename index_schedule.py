@@ -28,10 +28,6 @@ scheduler = BlockingScheduler(timezone=timez)
 scheduler.add_job(send_yesterday_index, 'cron', second=1)
 scheduler.add_job(send_today_index, 'cron', second=1)
 
-
-send_yesterday_index()
-send_today_index()
-
 try:
     print("Start!")
     scheduler.start()
