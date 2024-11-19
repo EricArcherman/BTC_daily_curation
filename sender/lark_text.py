@@ -30,10 +30,12 @@ def lark_data_loader(message):
 
 def yesterday_data():
     target_message = fetch_data()
+    print(f"Here's yesterday's data:\n{target_message[0]}")
     lark_data_loader(f"Here's yesterday's data:\n{target_message[0]}")
 
 def today_data():
     target_message = fetch_data()
+    print(f"Here's today's data:\n{target_message[1]}")
     lark_data_loader(f"Here's today's data:\n{target_message[1]}")
 
 if __name__ == "__main__":
