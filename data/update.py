@@ -18,7 +18,7 @@ def update(running, exchange, currency):
 
     start_timestamp = last_record + 60000 # avoid duplicates
     end_timestamp = current - 60000 # database lag
-    url = f"https://mizar-gateway.signalplus.net/mizar/index_price?exchange={exchange}&currency={currency}&startTime={start_timestamp}&endTime={end_timestamp}"
+    url = f"https://mizar-gateway.signalplus.com/mizar/index_price?exchange={exchange}&currency={currency}&startTime={start_timestamp}&endTime={end_timestamp}"
 
     LAST_UPDATE = datetime.fromtimestamp(end_timestamp / 1000)
 

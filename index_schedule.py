@@ -25,6 +25,9 @@ timez = pytz.timezone('Asia/Shanghai')
 scheduler = BlockingScheduler(timezone=timez)
 # scheduler.add_job(send_yesterday_index, 'cron', hour=send_yesterday_time[0], minute=send_yesterday_time[1])
 # scheduler.add_job(send_today_index, 'cron', hour=send_today_time[0], minute=send_today_time[1])
+scheduler.add_job(send_yesterday_index, 'cron', second=1)
+scheduler.add_job(send_today_index, 'cron', second=1)
+
 
 send_yesterday_index()
 send_today_index()
