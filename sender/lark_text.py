@@ -60,7 +60,7 @@ def yesterday_data():
     yesterday_midnight_timestamp = int(yesterday_midnight_utc8.timestamp()) * 1000
 
     start_time = yesterday_midnight_timestamp - 1000
-    end_time = midnight_timestamp + 1000
+    end_time = midnight_timestamp - 1000
     url = f"https://mizar-gateway.signalplus.net/mizar/index_price?exchange=deribit&currency=BTC&startTime={start_time}&endTime={end_time}"
     res = requests.get(url).json()
     res_dict = pd.DataFrame(res["value"])
@@ -68,7 +68,7 @@ def yesterday_data():
     res_dict = res_dict.loc[is_hour_list, :].reset_index(drop=True)
     data_message = '\t'.join(
         map(str, list(res_dict["indexPrice"].values) + [np.nan] * (24 - len(res_dict["indexPrice"].values))))
-    full_message = f"Here's yesterday's's data:\n{yesterday_date}\t{data_message}"
+    full_message = f"Here's yesterday's data:\n{yesterday_date}\t{data_message}"
     print(full_message)
     lark_data_loader(f"{full_message}")
 
